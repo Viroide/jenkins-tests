@@ -1,0 +1,23 @@
+version: '3'
+services:
+    jenkins:
+        image: jenkins/jenkins:lts
+        container_name: jenkins
+        ports:
+            - '80:8080'
+            - '443:8443'
+            - '50000:50000'
+
+    server1:
+        image: rastasheep/ubuntu-sshd
+        ports:
+            - "22000:22"
+        expose:
+            - "22000"
+
+    server2:
+        image: rastasheep/ubuntu-sshd
+        ports:
+            - "22001:22"
+        expose:
+            - "22001"
