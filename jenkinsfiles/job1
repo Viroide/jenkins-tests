@@ -15,8 +15,8 @@ pipeline {
         stage('Build') {
             steps {
                 ansiblePlaybook(
-                        playbook: 'ansible/get-updatable-packages.yml',
-                        inventory: 'ansible/inventory/host.ini'
+                        playbook: './ansible/get-updatable-packages.yml',
+                        inventory: './ansible/inventory/hosts.ini'
                 )
             }
         }
