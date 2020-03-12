@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Create the servers list') {
+            steps {
+                sh "chmod 700 ansible/ansible_key"
+                sh "ansible-playbook ./ansible/get-updatable-packages.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key"
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                sh "(echo '---\nPackages:'; cat ansible/server-patching-servers.txt )> ansible/server-patching-servers.yml"
+                archiveArtifacts artifacts: 'ansible/server-patching-servers.yml'
+            }
+        }
+    }
+}

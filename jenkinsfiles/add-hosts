@@ -15,9 +15,8 @@ pipeline {
         stage('Build') {
             steps {
                 ansiblePlaybook(
-                        playbook: './ansible/get-updatable-packages.yml',
-                        inventory: './ansible/inventory/hosts.ini',
-                        credentialsId: './ansible/ansible_key',
+                        playbook: './ansible/add-hosts.yml',
+                        inventory: './ansible/inventory/hosts.ini'
                 )
             }
         }

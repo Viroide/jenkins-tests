@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Import artifacts') {
+            steps {
+                copyArtifacts(projectName: '"get upgradeable package list"');
+            }
+        }
+
+        stage('Update servers with the list') {
+            steps {
+                sh "chmod 700 ansible/ansible_key"
+                sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key"
+            }
+        }
+    }
+}

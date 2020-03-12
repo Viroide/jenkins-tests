@@ -1,4 +1,4 @@
-pipelineJob("get upgradeable package list ") {
+pipelineJob("know hosts") {
     definition {
         cpsScm{
             scm {
@@ -8,12 +8,9 @@ pipelineJob("get upgradeable package list ") {
                         url("https://github.com/Viroide/jenkins-tests.git")
                     }
                     branch('master')
-                    scriptPath("jenkinsfiles/job1")
+                    scriptPath("jenkinsfiles/add-hosts")
                 }
             }
         }
-    }
-    triggers {
-        cron('@daily')
     }
 }

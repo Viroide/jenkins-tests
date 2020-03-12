@@ -2,3 +2,5 @@ FROM rastasheep/ubuntu-sshd
 
 COPY ./ansible/ansible_key.pub /root/.ssh/authorized_keys
 RUN chown root:root /root/.ssh/authorized_keys
+
+RUN apt-get install python3

@@ -7,12 +7,11 @@
           update_cache: yes
           cache_valid_time: 1
 
-    - name: Create a list of the packages that are going to be upgraded
-      shell:
-          cmd: apt-get --simulate upgrade -V | grep '=>' | sort | awk '{print "    - name:" " " $1 "\n      version:" " " $4}' | tr -d ')'
-          warn: no
-      register: package_updates_available
-      changed_when: no
+    - name: Upgrade package sources
+          become: yes
+          apt:
+            upgrade: yes
+            name:
 
     - name: Write out report
       local_action: { module: "copy", content: "{{ package_updates_available.stdout }}", dest: "./server-patching-{{ group_names.0 }}.txt" }
