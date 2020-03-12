@@ -1,8 +1,9 @@
 version: '3'
 services:
     jenkins:
-        image: jenkins/jenkins:lts
-        container_name: jenkins
+        build:
+            context: .
+            dockerfile: Dockerfile
         ports:
             - '80:8080'
             - '443:8443'
