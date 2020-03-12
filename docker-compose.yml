@@ -3,21 +3,25 @@ services:
     jenkins:
         build:
             context: .
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile_jenkins
         ports:
             - '80:8080'
             - '443:8443'
             - '50000:50000'
 
     server1:
-        image: rastasheep/ubuntu-sshd
+        build:
+            context: .
+            dockerfile: Dockerfile_servers
         ports:
             - "22000:22"
         expose:
             - "22000"
 
     server2:
-        image: rastasheep/ubuntu-sshd
+        build:
+            context: .
+            dockerfile: Dockerfile_servers
         ports:
             - "22001:22"
         expose:
