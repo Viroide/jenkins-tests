@@ -14,7 +14,7 @@ pipeline {
 
         stage('Import artifacts') {
             steps {
-                copyArtifacts(projectName: '"get upgradeable package list"');
+                copyArtifacts(projectName: "get upgradeable package list");
             }
         }
 

@@ -1,18 +1,18 @@
 ---
 - hosts: "all"
   tasks:
+    - name: Include package list
+      include_vars: server-patching-servers.yml
+
     - name: Update apt cache
       become: yes
       apt:
-          update_cache: yes
-          cache_valid_time: 1
+        update_cache: yes
+        cache_valid_time: 1
 
     - name: Upgrade package sources
-          become: yes
-          apt:
-            upgrade: yes
-            name:
-
-    - name: Write out report
-      local_action: { module: "copy", content: "{{ package_updates_available.stdout }}", dest: "./server-patching-{{ group_names.0 }}.txt" }
-      check_mode: no
+      become: yes
+      apt:
+        pkg: "{{ item.name }}={{ item.version }}"
+      with_items: "{{ Packages }}"
+      when: "{{ Packages != None }}"
