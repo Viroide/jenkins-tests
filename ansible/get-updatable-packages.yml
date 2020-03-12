@@ -1,0 +1,19 @@
+---
+- hosts: "all"
+  tasks:
+    - name: Update apt cache
+      become: yes
+      apt:
+          update_cache: yes
+          cache_valid_time: 1
+
+    - name: Create a list of the packages that are going to be upgraded
+      shell:
+          cmd: apt-get --simulate upgrade -V | grep '=>' | sort
+          warn: no
+      register: package_updates_available
+      changed_when: no
+
+    - name: Write out report
+      local_action: { module: "copy", content: "{{ package_updates_available.stdout }}", dest: "./server-patching-{{ ansible_hostname }}.txt" }
+      check_mode: no

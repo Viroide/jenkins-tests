@@ -1,4 +1,4 @@
-pipelineJob("job1") {
+pipelineJob("get upgradeable package list ") {
     definition {
         cpsScm{
             scm {
