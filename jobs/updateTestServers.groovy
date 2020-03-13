@@ -1,4 +1,4 @@
-pipelineJob("know-hosts") {
+pipelineJob("Update-servers-using-the-package-list-TEST") {
     definition {
         cpsScm{
             scm {
@@ -8,9 +8,12 @@ pipelineJob("know-hosts") {
                         url("https://github.com/Viroide/jenkins-tests.git")
                     }
                     branch('master')
-                    scriptPath("jenkinsfiles/add-hosts")
+                    scriptPath("jenkinsfiles/update-test-servers")
                 }
             }
         }
+    }
+    triggers {
+        cron('@daily')
     }
 }

@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Import artifacts') {
+            steps {
+                copyArtifacts(projectName: "get-upgradeable-package-list-TEST");
+            }
+        }
+
+        stage('Change ssh key permissions') {
+            steps {
+                sh "chmod 700 ansible/ansible_key"
+            }
+        }
+
+        stage('Update) {
+            steps {
+                sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=test"
+            }
+        }
+    }
+}

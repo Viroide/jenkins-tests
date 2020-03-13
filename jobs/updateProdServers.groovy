@@ -1,4 +1,4 @@
-pipelineJob("Update servers using the package list") {
+pipelineJob("Update-servers-using-the-package-list-PROD") {
     definition {
         cpsScm{
             scm {
@@ -8,7 +8,7 @@ pipelineJob("Update servers using the package list") {
                         url("https://github.com/Viroide/jenkins-tests.git")
                     }
                     branch('master')
-                    scriptPath("jenkinsfiles/update-servers")
+                    scriptPath("jenkinsfiles/update-prod-servers")
                 }
             }
         }

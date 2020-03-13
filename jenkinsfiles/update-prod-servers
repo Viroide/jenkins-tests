@@ -14,7 +14,7 @@ pipeline {
 
         stage('Import artifacts') {
             steps {
-                copyArtifacts(projectName: "get upgradeable package list");
+                copyArtifacts(projectName: "get-upgradeable-package-list-TEST");
             }
         }
 
@@ -41,8 +41,7 @@ pipeline {
                 }
             }
             steps {
-                // sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key"
-                sh "echo YES!"
+                sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=prod"
             }
         }
     }
