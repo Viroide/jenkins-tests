@@ -9,20 +9,23 @@ services:
             - '443:8443'
             - '50000:50000'
 
-    server1:
+    test-jon-app-01:
+        container_name: test-JON-app-01
         build:
             context: .
             dockerfile: Dockerfile_servers
-        ports:
-            - "22000:22"
-        expose:
-            - "22000"
-
-    server2:
+    test-jon-app-02:
+        container_name: test-JON-app-02
         build:
             context: .
             dockerfile: Dockerfile_servers
-        ports:
-            - "22001:22"
-        expose:
-            - "22001"
+    prod-jon-app-01:
+        container_name: prod-JON-app-01
+        build:
+            context: .
+            dockerfile: Dockerfile_servers
+    prod-jon-app-02:
+        container_name: prod-JON-app-02
+        build:
+            context: .
+            dockerfile: Dockerfile_servers

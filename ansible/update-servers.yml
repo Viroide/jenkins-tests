@@ -1,8 +1,9 @@
 ---
-- hosts: "{{ target_environment }}"
+- hosts: "{{ target_environment }}_{{ region }}"
   tasks:
     - name: Include package list
-      include_vars: "server-patching-{{ target_environment }}.yml"
+      include_vars:
+        file: "server-patching-{{ inventory_hostname }}.yml"
 
     - name: Update apt cache
       become: yes

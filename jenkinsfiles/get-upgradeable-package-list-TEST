@@ -15,14 +15,19 @@ pipeline {
         stage('Create the servers list') {
             steps {
                 sh "chmod 700 ansible/ansible_key"
-                sh "ansible-playbook ./ansible/get-updatable-packages.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=test"
+                sh "ansible-playbook ./ansible/get-updatable-packages.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=test -e region=JON"
             }
         }
 
         stage('Archive') {
             steps {
-                sh "(echo '---\nPackages:'; cat ansible/server-patching-test.txt )> ansible/server-patching-test.yml"
-                archiveArtifacts artifacts: 'ansible/server-patching-test.yml'
+                sh '''#!/bin/bash
+                     for f in ansible/server-patching-*
+                     do
+                        (echo '---\nPackages:'; cat $f )> $f.yml
+                     done
+                '''
+                archiveArtifacts artifacts: 'ansible/server-patching-*.yml'
             }
         }
     }
