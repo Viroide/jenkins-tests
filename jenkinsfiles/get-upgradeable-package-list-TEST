@@ -14,7 +14,7 @@ pipeline {
 
         stage('Create the servers list') {
             steps {
-                sh "chmod 700 ansible/ansible_key"
+                sh "chmod 600 ansible/ansible_key"
                 sh "ansible-playbook ./ansible/get-updatable-packages.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=test -e region=JON"
             }
         }

@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Create the upgradeable package list')  {
+            steps {
+                build("get-upgradeable-package-list-TEST")
+            }
+        }
+
         stage('Clean') {
             steps {
                 deleteDir()

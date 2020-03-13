@@ -5,7 +5,7 @@
       become: yes
       apt:
           update_cache: yes
-          cache_valid_time: 1
+          cache_valid_time: 3600
 
     - name: Create a list of the packages that are going to be upgraded
       shell:
