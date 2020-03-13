@@ -18,10 +18,31 @@ pipeline {
             }
         }
 
-        stage('Update servers with the list') {
+        stage('Change ssh key permissions') {
             steps {
                 sh "chmod 700 ansible/ansible_key"
-                sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key"
+            }
+        }
+
+        stage('Get prod upgradable package list') {
+            steps {
+                sh "ansible-playbook ./ansible/get-updatable-packages.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=prod"
+                sh "(echo '---\nPackages:'; cat ansible/server-patching-prod.txt )> ansible/server-patching-prod.yml"
+            }
+        }
+
+        stage('Update (only if they are the same)') {
+            when {
+                expression {
+                    return sh(
+                        script: "diff ansible/server-patching-test.yml ansible/server-patching-prod.yml",
+                        returnStatus: true
+                    ) == 0
+                }
+            }
+            steps {
+                // sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key"
+                sh "echo YES!"
             }
         }
     }

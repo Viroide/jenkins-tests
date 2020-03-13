@@ -2,7 +2,7 @@
 - hosts: "all"
   tasks:
     - name: Include package list
-      include_vars: server-patching-servers.yml
+      include_vars: server-patching-servers.prod.yml
 
     - name: Update apt cache
       become: yes

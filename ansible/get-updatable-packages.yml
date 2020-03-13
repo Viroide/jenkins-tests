@@ -1,5 +1,5 @@
 ---
-- hosts: "all"
+- hosts: "{{ target_environment }}"
   tasks:
     - name: Update apt cache
       become: yes
@@ -15,5 +15,5 @@
       changed_when: no
 
     - name: Write out report
-      local_action: { module: "copy", content: "{{ package_updates_available.stdout }}", dest: "./server-patching-{{ group_names.0 }}.txt" }
+      local_action: { module: "copy", content: "{{ package_updates_available.stdout }}", dest: "./server-patching-{{ target_environment }}.txt" }
       check_mode: no
