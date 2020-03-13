@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Update) {
+        stage('Update') {
             steps {
                 sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=test"
             }
