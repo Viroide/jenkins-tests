@@ -1,0 +1,20 @@
+{
+  "name": "jenkinsfile-slides",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jenkins.mdx",
+  "scripts": {
+    "start": "mdx-deck jenkins.mdx",
+    "build": "mdx-deck build jenkins.mdx",
+    "save-pdf": "website-pdf http://localhost:8000/print -o jenkins.pdf"
+  },
+  "keywords": [
+    "slides"
+  ],
+  "author": "Jon E. Eguiluz",
+  "license": "ISC",
+  "devDependencies": {
+    "mdx-deck": "^4.1.1",
+    "website-pdf": "^4.1.0"
+  }
+}
