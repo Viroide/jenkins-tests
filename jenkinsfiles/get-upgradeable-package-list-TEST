@@ -32,4 +32,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+           emailext attachLog: true, attachmentsPattern: 'ansible/server-patching-*.yml',
+           to: 'viroide@gmail.com',
+           subject: "Should we update this changes in PROD? #${env.BUILD_NUMBER}",
+           body: "Build: ${env.BUILD_URL}\nTo validate this changes run this build: ${env.JENKINS_URL}/promote-TEST-to-PROD-servers-update/"
+       }
+    }
 }
