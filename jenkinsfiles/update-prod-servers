@@ -14,7 +14,7 @@ pipeline {
 
         stage('Import artifacts') {
             steps {
-                copyArtifacts(projectName: "get-upgradeable-package-list-TEST");
+                copyArtifacts(projectName: "promote-TEST-to-PROD-servers-update");
             }
         }
 
@@ -37,23 +37,17 @@ pipeline {
         }
 
         stage('Update (only if they are the same)') {
-            when {
-                expression {
-                    return sh(
-                        script: '''#!/bin/bash
-                                 for prod in ansible/server-patching-prod*.yml
-                                 do
-                                    test="${prod/prod/test}"
-                                    diff $test $prod
-                                 done
-                            ''',
-                        returnStatus: true
-                    ) == 0
-                }
-            }
             steps {
                 sh "ansible-playbook ./ansible/update-servers.yml -i ./ansible/inventory/hosts.ini --user=root --private-key=./ansible/ansible_key -e target_environment=prod -e region=JON"
             }
         }
+    }
+    post {
+        success {
+           emailext attachLog: true, attachmentsPattern: 'ansible/server-patching-*.yml',
+           to: 'viroide@gmail.com',
+           subject: "Should we update this changes in PROD? #${env.BUILD_NUMBER}",
+           body: "Build: ${env.BUILD_URL}\nTo validate this changes run this build: ${env.JENKINS_URL}promote-TEST-to-PROD-servers-update/"
+       }
     }
 }

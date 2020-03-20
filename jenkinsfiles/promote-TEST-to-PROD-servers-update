@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Import artifacts') {
+            steps {
+                copyArtifacts(projectName: "get-upgradeable-package-list-TEST");
+            }
+        }
+        stage('Archive for prod') {
+            steps {
+                archiveArtifacts artifacts: 'ansible/server-patching-*.yml'
+            }
+        }
+    }
+}
