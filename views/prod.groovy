@@ -1,7 +1,7 @@
 listView('PROD-tasks') {
     description('Tasks for prod environment')
     jobs {
-        regex('.*PROD')
+        regex('.*PROD.*')
     }
 
     columns {
