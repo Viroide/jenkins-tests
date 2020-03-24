@@ -36,4 +36,12 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+           emailext attachLog: true, attachmentsPattern: 'ansible/server-patching-*.yml',
+           to: 'viroide@gmail.com',
+           subject: "PROD updated with this packages",
+           body: "Build: ${env.BUILD_URL}"
+       }
+    }
 }
